@@ -1,102 +1,6 @@
-# import pandas as pd
-# import dash
-# from dash import dcc, html
-# import plotly.express as px
-
-# # Load your dataset
-# df = pd.read_csv("Housing.csv")  # Replace with actual CSV file path
-
-# # Create a scatter plot
-# fig = px.scatter(df, x="GrLivArea", y="SalePrice", title="Living Area vs House Price")
-
-# # Show the plot
-# fig.show()
-# # Create a Dash app
-# app = dash.Dash(__name__)
-
-# # Sample visualization
-# fig = px.scatter(df, x="GrLivArea", y="SalePrice", title="Living Area vs House Price")
-
-# app.layout = html.Div([
-#     html.H1("House Price Dashboard"),
-#     dcc.Graph(figure=fig)
-# ])
-
-# if __name__ == '__main__':
-#     app.run_server(debug=True)
 
 
-# import dash
-# from dash import dcc, html
-# from dash.dependencies import Input, Output
-# import plotly.express as px
-# import pandas as pd
-
-# # Load dataset
-# df = pd.read_csv("Housing.csv")  # Replace with your actual file
-
-# #add
-# df["price_lakhs"] = df["price"] / 100000  # Convert price to lakhs
-
-
-# # Initialize Dash app
-# app = dash.Dash(__name__)
-
-# # Layout of Dashboard
-# app.layout = html.Div([
-#     html.H1("House Price Prediction Dashboard", style={"textAlign": "center"}),
-    
-#     # Dropdown to select X-axis feature
-#     html.Label("Select Feature to Compare with Price:"),
-#     dcc.Dropdown(
-#         id="feature-dropdown",
-#         options=[
-#             {"label": "Area", "value": "area"},
-#             {"label": "Bedrooms", "value": "bedrooms"},
-#             {"label": "Bathrooms", "value": "bathrooms"},
-#             {"label": "Stories", "value": "stories"},
-#             {"label": "Parking", "value": "parking"},
-#         ],
-#         value="area",
-#         clearable=False
-#     ),
-    
-#     # Scatter plot
-#     dcc.Graph(id="scatter-plot"),
-    
-#     # Histogram of House Prices
-#     html.H3("Price Distribution"),
-#     dcc.Graph(id="histogram"),
-# ])
-
-# @app.callback(
-#     Output("scatter-plot", "figure"),
-#     Input("feature-dropdown", "value")
-# )
-# def update_scatter(selected_feature):
-#     fig = px.scatter(df, x=selected_feature, y="price_lakhs", 
-#                      title=f"{selected_feature} vs Price (₹ Lakhs)",
-#                      labels={selected_feature: selected_feature, "price_lakhs": "House Price (₹ Lakhs)"},
-#                      color="stories")
-
-#     fig.update_layout(yaxis_tickprefix="₹", yaxis_title="House Price (Lakhs ₹)")
-#     return fig
-
-# @app.callback(
-#     Output("histogram", "figure"),
-#     Input("feature-dropdown", "value")
-# )
-# def update_histogram(_):
-#     fig = px.histogram(df, x="price_lakhs", nbins=30, title="Distribution of House Prices (₹ Lakhs)")
-#     fig.update_layout(xaxis_tickprefix="₹", xaxis_title="House Price (Lakhs ₹)")
-#     return fig
-
-
-# # Run the app
-# if __name__ == "__main__":
-#     app.run_server(debug=True)
-
-
+import os
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
@@ -220,6 +124,8 @@ def predict_price(n_clicks, area, bedrooms, bathrooms, stories, parking):
         return f"Predicted Price: ₹{predicted_price:,.2f}"
     return ""
 
-# Run the app
+
+
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    port = int(os.environ.get("PORT", 8050))  # Render dynamically assigns a PORT
+    app.run_server(host="0.0.0.0", port=port, debug=True)
